@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    environment:  
+      - POSTGRES_DB=postgres7
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgresuser
+    ports:
+      - "5432:5432"
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    ports:
+      - "81:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: joana@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: joana123
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+volumes:
+  local_pgdata:
+  pgadmin-data:
