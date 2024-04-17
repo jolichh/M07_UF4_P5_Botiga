@@ -13,5 +13,5 @@ class Pagament(models.Model):
     tarjet_num = models.CharField(max_length=100)
     exp_date = models.DateField()
     cvc = models.IntegerField()
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
