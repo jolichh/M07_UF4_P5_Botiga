@@ -29,5 +29,5 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('carreto/', carreto_views.hello , name="carreto"),
+    path('carreto/', carreto_views.Cart , name="carreto"),
 ]
