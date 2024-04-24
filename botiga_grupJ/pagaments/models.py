@@ -15,3 +15,7 @@ class Pagament(models.Model):
     cvc = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id'], name='unique_user_pagament')
+        ]
