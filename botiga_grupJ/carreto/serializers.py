@@ -15,6 +15,8 @@ class CarritoSerializer(serializers.ModelSerializer):
         model = Carrito
         fields = ['id', 'productos']
 
+
+
     def get_productos(self, obj):
         # Obtiene los IDs de los productos asociados al carrito
         productos_ids = obj.productos.all()
