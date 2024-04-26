@@ -30,5 +30,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('pagament/', pagaments_views.pagaments, name="pagament"),
-    path('pagament/<int:pk>/', pagaments_views.update_delete, name="update")
+    path('pagament/<int:pk>/', pagaments_views.update_delete_pagament, name="update")
 ]

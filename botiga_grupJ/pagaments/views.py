@@ -42,7 +42,7 @@ def pagaments(request):
 
 # trabaja sobre un dato especifico
 @api_view(['GET','PUT','DELETE'])
-def update_delete(request, pk=None):
+def update_delete_pagament(request, pk=None):
     if request.method == 'GET':
         try: 
             pagament = Pagament.objects.get(pk=pk)            
