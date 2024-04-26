@@ -11,11 +11,16 @@ class UserPagamentSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'name', 'email', 'password', 'pagaments']
 
-    def get_pagaments(self,obj):
-        pagaments = Pagament.objects.filter(user=obj.id)
-        return PagamentSerializer(pagaments, many=True).data
-    
-class PagamentSerializer(serializers.ModelSerializer):
+    # def get_pagaments(self,obj):
+    #     pagaments = Pagament.objects.filter(user=obj.id)
+    #     return PagamentSerializer(pagaments, many=True).data
+
+class GetPagamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Pagament
+        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+
+class AddPagamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pagament
         fields = ['tarjet_num', 'exp_date', 'cvc', 'user']

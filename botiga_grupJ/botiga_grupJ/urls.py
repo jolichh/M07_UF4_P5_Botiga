@@ -29,5 +29,6 @@ router.register(r'groups', cataleg_views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('pagament/', pagaments_views.pagament, name="pagament")
+    path('pagament/', pagaments_views.pagaments, name="pagament"),
+    path('pagament/<int:pk>/', pagaments_views.update_delete, name="update")
 ]
