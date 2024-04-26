@@ -85,9 +85,9 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'postgres7',
-        'USER': 'postgresuser',
-        'PASSWORD': 'password',
+        'NAME':'ITIC_DB',
+        'USER': 'eric',
+        'PASSWORD': 'eric',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
