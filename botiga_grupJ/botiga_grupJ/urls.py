@@ -30,4 +30,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('carreto/', carreto_views.Cart , name="carreto"),
+    path('carreto/<int:carrito_id>/', carreto_views.CartModify , name="carreto")
 ]
