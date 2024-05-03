@@ -5,7 +5,7 @@ from .models import Producte, Categoria
 class ProducteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producte
-        fields = ['id', 'name', 'description', 'price', 'valoration', 'quantity']
+        fields = ['id', 'name', 'description', 'price', 'valoration', 'quantity', 'categoria']
 
 class CategoriaSerializer(serializers.ModelSerializer):
     productes = ProducteSerializer(many=True, read_only=True, source='producte_set')  # Usamos source='producte_set'
@@ -19,6 +19,8 @@ class CategoriaSerializer(serializers.ModelSerializer):
         serializer = ProducteSerializer(productos, many=True)
         return serializer.data
     
+
+
 # esto de abajo son ejemplos del tutorial
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

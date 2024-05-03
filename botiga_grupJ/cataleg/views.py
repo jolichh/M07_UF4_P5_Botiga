@@ -3,7 +3,7 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Categoria, Producte
-from cataleg.serializers import CategoriaSerializer, GroupSerializer, UserSerializer
+from cataleg.serializers import CategoriaSerializer, ProducteSerializer, GroupSerializer, UserSerializer
 
 @api_view(['GET', 'POST'])
 def cataleg(request):
@@ -11,6 +11,15 @@ def cataleg(request):
         categorias = Categoria.objects.all()
         serializer = CategoriaSerializer(categorias, many=True)
         return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        # AÑADIR NUEVO PRODUCTO
+        serializer = ProducteSerializer(data=request.data)
+        # Asegurar formato de datos cumple la serialización
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+               
     return Response({"nada a mostrar..."})
 
 
