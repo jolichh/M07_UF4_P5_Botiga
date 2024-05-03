@@ -29,18 +29,17 @@ def Cart(request, carrito_id=None):
 
 
 
-
-
-
-
-
-
-
-
-
 @api_view(['GET', 'PUT', 'DELETE'])
-def Cart2(request, carrito_id=None):
-    if request.method == 'PUT':
+def CartModify(request, carrito_id=None):
+    if request.method == 'GET':
+        try:
+            carrito = Carrito.objects.get(pk=carrito_id)
+            serializer = CarritoSerializer(carrito)
+            return Response(serializer.data)
+        except Carrito.DoesNotExist:
+            return Response({'message': 'Carrito no encontrado'}, status=404)
+
+    elif request.method == 'PUT':
         carrito = Carrito.objects.get(pk=carrito_id)
         serializer = CarritoSerializer(carrito, data=request.data)
         if serializer.is_valid():
