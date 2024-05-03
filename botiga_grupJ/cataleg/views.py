@@ -1,9 +1,20 @@
 from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Categoria, Producte
+from cataleg.serializers import CategoriaSerializer, GroupSerializer, UserSerializer
 
-from cataleg.serializers import GroupSerializer, UserSerializer
+@api_view(['GET', 'POST'])
+def cataleg(request):
+    if request.method == 'GET':
+        categorias = Categoria.objects.all()
+        serializer = CategoriaSerializer(categorias, many=True)
+        return Response(serializer.data)
+    return Response({"nada a mostrar..."})
 
 
+# esto de abajo son ejemplo del tutorial
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

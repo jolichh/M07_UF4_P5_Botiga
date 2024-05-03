@@ -75,3 +75,5 @@ def update_delete_pagament(request, pk=None):
         return Response({"message": "El metodo de pago se ha eliminado correctamente"})
     
     return Response({"nada a mostrar..."})
+
+
