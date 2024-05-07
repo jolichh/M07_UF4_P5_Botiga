@@ -17,15 +17,20 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 
-from cataleg import views
+from cataleg import views as cataleg_views
+from pagaments import views as pagaments_views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router.register(r'users', cataleg_views.UserViewSet)
+router.register(r'groups', cataleg_views.GroupViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('pagament/', pagaments_views.pagaments, name="pagament"),
+    path('pagament/<int:pk>/', pagaments_views.update_delete_pagament, name="update_pagament"),
+    path('cataleg/', cataleg_views.cataleg, name='cataleg'),
+    path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte")
 ]

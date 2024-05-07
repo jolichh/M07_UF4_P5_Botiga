@@ -13,3 +13,4 @@ class Producte(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     valoration = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     quantity = models.PositiveBigIntegerField()
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
