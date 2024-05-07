@@ -49,14 +49,14 @@ def update_delete_cataleg(request, pk=None):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    # elif request.method == 'DELETE':
-    #     try:
-    #         pagament = Pagament.objects.get(pk=pk)
-    #     except Pagament.DoesNotExist:
-    #         return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
+    elif request.method == 'DELETE':
+        try:
+            prod_catalog = Producte.objects.get(pk=pk)
+        except Producte.DoesNotExist:
+            return Response({"message": "El producto no existe"}, status=status.HTTP_404_NOT_FOUND)
        
-    #     pagament.delete()
-    #     return Response({"message": "El metodo de pago se ha eliminado correctamente"})
+        prod_catalog.delete()
+        return Response({"message": "El producto se ha eliminado correctamente"})
     
     return Response({"nada a mostrar..."})
 
