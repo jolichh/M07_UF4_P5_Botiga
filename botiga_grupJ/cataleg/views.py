@@ -34,7 +34,7 @@ def update_delete_cataleg(request, pk=None):
 
             return Response(serializer.data)
         except Producte.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"message: ningun producto con ese ID"},status=status.HTTP_404_NOT_FOUND)
 
     # INDIFERENTE SI LE PASAS EL ID O NO (lo obtiene de la url)    
     if request.method == 'PUT':
