@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('pagament/', pagaments_views.pagaments, name="pagament"),
-    path('pagament/<int:pk>/', pagaments_views.update_delete_pagament, name="update"),
-    path('cataleg/', cataleg_views.cataleg, name='cataleg')
+    path('pagament/<int:pk>/', pagaments_views.update_delete_pagament, name="update_pagament"),
+    path('cataleg/', cataleg_views.cataleg, name='cataleg'),
+    path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte")
 ]
