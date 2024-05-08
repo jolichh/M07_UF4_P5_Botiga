@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Carrito
-from .serializers import CarritoSerializer, CarritoPOSTSerializer
+from .serializers import CarritoSerializer, CarritoPOSTSerializer, CarritoPUTSerializer
 
 @api_view(['GET', 'POST'])
 def Cart(request, carrito_id=None):
@@ -41,7 +41,7 @@ def CartModify(request, carrito_id=None):
 
     elif request.method == 'PUT':
         carrito = Carrito.objects.get(pk=carrito_id)
-        serializer = CarritoSerializer(carrito, data=request.data)
+        serializer = CarritoPUTSerializer(carrito, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"mensaje": "Datos actualizados correctamente"})
