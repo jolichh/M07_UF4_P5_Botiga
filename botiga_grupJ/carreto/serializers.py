@@ -34,7 +34,22 @@ class CarritoPOSTSerializer(serializers.ModelSerializer):
         fields = ['productos']
 
     def create(self, validated_data):
-        productos_ids = validated_data.pop('productos', [])  # Obtener los IDs de los productos
+        productos_ids = validated_data.pop('productos', [])  # Recibe los IDs de los productos
         carrito = Carrito.objects.create(**validated_data)  # Crear el carrito
         carrito.productos.add(*productos_ids)  # Asociar los productos al carrito
         return carrito
+    
+
+class CarritoPUTSerializer(serializers.ModelSerializer):
+    productos = serializers.ListField(child=serializers.IntegerField())  # Lista de IDs de productos
+
+    class Meta:
+        model = Carrito
+        fields = ['productos']
+
+    def update(self, instance, validated_data):
+        productos_ids = validated_data.pop('productos', [])  # Recibe los IDs de los productos
+        instance.productos.clear()  # Borra todos los Productos
+        instance.productos.add(*productos_ids)  # Asociar los productos al carrito
+        instance.save()
+        return instance
