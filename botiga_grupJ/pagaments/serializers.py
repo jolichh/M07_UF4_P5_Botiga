@@ -7,17 +7,16 @@ from .models import Pagament, User
 from rest_framework import serializers
 
 # campos del user
-class UserSerializer(serializers.ModelSerializer):    
-    class Meta:
-        model= User
-        fields = ['id','name', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}  # No mostrar contraseña
+# class UserSerializer(serializers.ModelSerializer):    
+#     class Meta:
+#         model= User
+#         fields = ['id','name', 'email', 'password']
+#         extra_kwargs = {'password': {'write_only': True}}  # No mostrar contraseña
 
 
 # comanda con datos del carrito
 # cada comanda puede tener varios carritos con propiedad de pagado o no
 class ComandaSerializer(serializers.ModelSerializer):
-    user = UserSerializer()  # Incluir el serializador de User para mostrar los datos del usuario
     carrito = serializers.SerializerMethodField()
 
     class Meta:
@@ -42,31 +41,31 @@ class PagamentSerializer(serializers.ModelSerializer):
 #         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
 
 
-# serializador para el POST
+# serializador para añadir una targeta
 class AddPagamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pagament
         fields = ['tarjet_num', 'exp_date', 'cvc', 'user']
 
 # muestra datos del usuario junto a sus datos de comandas
-class UserPagamentSerializer(serializers.ModelSerializer):
-    # guardarà los datos de manera filtrada
-    # no es un campo real, obtiene los datos a través de las 'def'
-    # donde obtiene los datos relacionados a cada user
-    pagaments = serializers.SerializerMethodField()
-    comandes = serializers.SerializerMethodField()
+# class UserPagamentSerializer(serializers.ModelSerializer):
+#     # guardarà los datos de manera filtrada
+#     # no es un campo real, obtiene los datos a través de las 'def'
+#     # donde obtiene los datos relacionados a cada user
+#     pagaments = serializers.SerializerMethodField()
+#     comandes = serializers.SerializerMethodField()
 
-    class Meta:
-        model = User
-        fields = ['id', 'name', 'email', 'password', 'pagaments', 'comandes']
+#     class Meta:
+#         model = User
+#         fields = ['id', 'name', 'email', 'password', 'pagaments', 'comandes']
 
-    def get_pagaments(self,obj):
-        pagaments = Pagament.objects.filter(user=obj.id)
-        return PagamentSerializer(pagaments, many=True).data
+#     def get_pagaments(self,obj):
+#         pagaments = Pagament.objects.filter(user=obj.id)
+#         return PagamentSerializer(pagaments, many=True).data
     
-    def get_comandes(self, obj):
-        comandes = Comanda.objects.filter(user=obj.id)
-        return ComandaSerializer(comandes, many=True).data
+#     def get_comandes(self, obj):
+#         comandes = Comanda.objects.filter(user=obj.id)
+#         return ComandaSerializer(comandes, many=True).data
     
 # serializador del modelo comanda
 class ComandaSerializer(serializers.ModelSerializer):
@@ -76,24 +75,31 @@ class ComandaSerializer(serializers.ModelSerializer):
 
 # para mostrar TODOS los datos al pagar: comanda, user, datos de pago
 # los datos obtenidos formato CASCADE
-class GetPagamentSerializer(serializers.ModelSerializer):
-    user = UserPagamentSerializer()
+# class GetPagamentSerializer(serializers.ModelSerializer):
+#     user = UserPagamentSerializer()
 
-    class Meta:
-        model=Pagament
-        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+#     class Meta:
+#         model=Pagament
+#         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+
 
 ## MOSTRAR USUARIOS CON TODA SU INFO RELACIONADA: 
 # formas de pago(pagament), comanda, carreto
+# datos en CASCADE
 class GetUserPagamentSerializer(serializers.ModelSerializer):
     payment = serializers.SerializerMethodField()
+    comanda = serializers.SerializerMethodField()
 
     class Meta:
         model= User
-        fields = ['id','name', 'email', 'password', 'payment']
+        fields = ['id','name', 'email', 'password', 'payment', 'comanda']
         #extra_kwargs = {'password': {'write_only': True}}  # No mostrar contraseña
         
     def get_payment(self,obj):
         pagaments = Pagament.objects.filter(user=obj.id)
         return PagamentSerializer(pagaments, many=True).data
+    
+    def get_comanda(self, obj):
+        comandes = Comanda.objects.filter(user=obj.id)
+        return ComandaSerializer(comandes, many=True).data
     
