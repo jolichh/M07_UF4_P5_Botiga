@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, User
 
 from comandes.models import Comanda
+from carreto.models import Carrito
 from .models import Pagament, User
 from rest_framework import serializers
 
@@ -32,18 +33,6 @@ class PagamentSerializer(serializers.ModelSerializer):
 
 
 
-class UserPagamentSerializer(serializers.ModelSerializer):
-    #guardarà los datos de manera filtrada
-    pagaments = serializers.SerializerMethodField()
-
-    class Meta:
-        model = User
-        fields = ['id', 'name', 'email', 'password', 'pagaments']
-
-    def get_pagaments(self,obj):
-        pagaments = Pagament.objects.filter(user=obj.id)
-        return PagamentSerializer(pagaments, many=True).data
-
 # class GetPagamentSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model=Pagament
@@ -54,11 +43,37 @@ class AddPagamentSerializer(serializers.ModelSerializer):
         model = Pagament
         fields = ['tarjet_num', 'exp_date', 'cvc', 'user']
 
+# muestra datos del usuario junto a sus datos de comandas
+class UserPagamentSerializer(serializers.ModelSerializer):
+    # guardarà los datos de manera filtrada
+    # no es un campo real, obtiene los datos a través de las 'def'
+    # donde obtiene los datos relacionados a cada user
+    pagaments = serializers.SerializerMethodField()
+    comandes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'email', 'password', 'pagaments', 'comandes']
+
+    def get_pagaments(self,obj):
+        pagaments = Pagament.objects.filter(user=obj.id)
+        return PagamentSerializer(pagaments, many=True).data
+    
+    def get_comandes(self, obj):
+        comandes = Comanda.objects.filter(user=obj.id)
+        return ComandaSerializer(comandes, many=True).data
+    
+# serializador del modelo comanda
+class ComandaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comanda
+        fields = ['id', 'carreto', 'data', 'user']
+
 # para mostrar TODOS los datos al pagar: comanda, user, datos de pago
 class GetPagamentSerializer(serializers.ModelSerializer):
     # serializadores de los datos de otras tablas a mostrar
-    user = UserSerializer()
-    # comanda
+    # (tambien se puede importar los serializadores)
+    user = UserPagamentSerializer()
     # carrito
 
     class Meta:
