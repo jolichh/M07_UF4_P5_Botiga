@@ -19,6 +19,7 @@ from rest_framework import routers
 
 from cataleg import views as cataleg_views
 from pagaments import views as pagaments_views
+from carreto import views as carreto_views
 
 router = routers.DefaultRouter()
 router.register(r'users', cataleg_views.UserViewSet)
@@ -32,5 +33,8 @@ urlpatterns = [
     path('pagament/', pagaments_views.pagaments, name="pagament"),
     path('pagament/<int:pk>/', pagaments_views.update_delete_pagament, name="update_pagament"),
     path('cataleg/', cataleg_views.cataleg, name='cataleg'),
-    path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte")
+    path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte"),
+    path('carreto/', carreto_views.Cart , name="carreto"),
+    path('carreto/<int:carrito_id>/', carreto_views.CartModify , name="carreto")
+
 ]

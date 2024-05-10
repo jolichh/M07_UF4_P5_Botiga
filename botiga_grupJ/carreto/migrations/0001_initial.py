@@ -17,7 +17,23 @@ class Migration(migrations.Migration):
             name='Carrito',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('productos', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cataleg.producte')),
             ],
+        ),
+        migrations.CreateModel(
+            name='ProductoEnCarrito',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('cantidad', models.PositiveIntegerField(default=1)),
+                ('carrito', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='carreto.carrito')),
+                ('producto', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cataleg.producte')),
+            ],
+            options={
+                'db_table': 'carreto_productoencarrito',
+            },
+        ),
+        migrations.AddField(
+            model_name='carrito',
+            name='productos',
+            field=models.ManyToManyField(through='carreto.ProductoEnCarrito', to='cataleg.producte'),
         ),
     ]
