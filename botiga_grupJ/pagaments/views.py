@@ -3,8 +3,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Pagament
-from .serializers import AddPagamentSerializer, GetPagamentSerializer, UserPagamentSerializer, UserSerializer
+from .models import Pagament, User
+from .serializers import AddPagamentSerializer, GetPagamentSerializer, GetUserPagamentSerializer, UserPagamentSerializer, UserSerializer
 
 # Mostrar los datos relacionados al pago: 
 # todos los productos de la comanda junto al user y sus datos de pago
@@ -12,10 +12,10 @@ from .serializers import AddPagamentSerializer, GetPagamentSerializer, UserPagam
 def pagaments(request):
     if request.method == 'GET':
         try: 
-            get_pagaments = Pagament.objects.all()
+            get_user = User.objects.all()
             
             #Serializar pagos ordenando y mostrar datos del user
-            serializer = GetPagamentSerializer(get_pagaments, many=True)
+            serializer = GetUserPagamentSerializer(get_user, many=True)
 
             return Response(serializer.data)
         except Pagament.DoesNotExist:
