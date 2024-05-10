@@ -11,7 +11,7 @@ def cataleg(request):
     if request.method == 'GET':
         categorias = Categoria.objects.all()
         serializer = CategoriaSerializer(categorias, many=True)
-        return Response(serializer.data, status=status.HTTP_200_CREATE)
+        return Response(serializer.data)
     
     elif request.method == 'POST':
         # AÑADIR NUEVO PRODUCTO
@@ -19,7 +19,7 @@ def cataleg(request):
         # Asegurar formato de datos cumple la serialización
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_SUCCESS)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
                
     return Response({"nada a mostrar..."})
 
