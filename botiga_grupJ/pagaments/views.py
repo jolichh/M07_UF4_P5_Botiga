@@ -46,35 +46,35 @@ def pagaments(request):
 # muestra los datos de pago de un usuario, junto a todos los datos relacionados a ese user
 @api_view(['GET','PUT','DELETE'])
 def update_delete_pagament(request, pk=None):
-    # if request.method == 'GET':
-    #     try: 
-    #         pagament = Pagament.objects.get(pk=pk)            
-    #         #Serializar pagos ordenando y mostrar datos del user
-    #         serializer = GetPagamentSerializer(pagament)
+    if request.method == 'GET':
+        try: 
+            pagament = Pagament.objects.get(pk=pk)            
+            #Serializar pagos ordenando y mostrar datos del user
+            serializer = GetPagamentSerializer(pagament)
 
-    #         return Response(serializer.data)
-    #     except Pagament.DoesNotExist:
-    #         return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(serializer.data)
+        except Pagament.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
-    # if request.method == 'PUT':
-    #     try:
-    #         pagament = Pagament.objects.get(pk=pk)
-    #     except Pagament.DoesNotExist:
-    #         return Response({"message": "No se ha encontrado coincidencias en la data base para ese ID"}, status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'PUT':
+        try:
+            pagament = Pagament.objects.get(pk=pk)
+        except Pagament.DoesNotExist:
+            return Response({"message": "No se ha encontrado coincidencias en la data base para ese ID"}, status=status.HTTP_404_NOT_FOUND)
 
-    #     serializer = AddPagamentSerializer(pagament, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = AddPagamentSerializer(pagament, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    # elif request.method == 'DELETE':
-    #     try:
-    #         pagament = Pagament.objects.get(pk=pk)
-    #     except Pagament.DoesNotExist:
-    #         return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
+    elif request.method == 'DELETE':
+        try:
+            pagament = Pagament.objects.get(pk=pk)
+        except Pagament.DoesNotExist:
+            return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
        
-    #     pagament.delete()
-    #     return Response({"message": "El metodo de pago se ha eliminado correctamente"})
+        pagament.delete()
+        return Response({"message": "El metodo de pago se ha eliminado correctamente"})
     
     return Response({"nada a mostrar..."})

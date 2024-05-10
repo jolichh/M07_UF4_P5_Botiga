@@ -29,12 +29,7 @@ class PagamentSerializer(serializers.ModelSerializer):
         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
 
 
-# para mostrar TODOS los datos al pagar: comanda, user, datos de pago
-class GetPagamentSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model=Pagament
-        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+
 
 
 class UserPagamentSerializer(serializers.ModelSerializer):
@@ -45,17 +40,27 @@ class UserPagamentSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'name', 'email', 'password', 'pagaments']
 
-    # def get_pagaments(self,obj):
-    #     pagaments = Pagament.objects.filter(user=obj.id)
-    #     return PagamentSerializer(pagaments, many=True).data
+    def get_pagaments(self,obj):
+        pagaments = Pagament.objects.filter(user=obj.id)
+        return PagamentSerializer(pagaments, many=True).data
 
-class GetPagamentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Pagament
-        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+# class GetPagamentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model=Pagament
+#         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
 
 class AddPagamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pagament
         fields = ['tarjet_num', 'exp_date', 'cvc', 'user']
 
+# para mostrar TODOS los datos al pagar: comanda, user, datos de pago
+class GetPagamentSerializer(serializers.ModelSerializer):
+    # serializadores de los datos de otras tablas a mostrar
+    user = UserSerializer()
+    # comanda
+    # carrito
+
+    class Meta:
+        model=Pagament
+        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
