@@ -5,6 +5,7 @@ from comandes.models import Comanda
 from carreto.models import Carrito
 from .models import Pagament, User
 from rest_framework import serializers
+from django.contrib.auth.hashers import check_password
 
 # campos del user
 # class UserSerializer(serializers.ModelSerializer):    
@@ -102,4 +103,44 @@ class GetUserPagamentSerializer(serializers.ModelSerializer):
     def get_comanda(self, obj):
         comandes = Comanda.objects.filter(user=obj.id)
         return ComandaSerializer(comandes, many=True).data
+    
+# UPDATE datos de pago
+class UpdatePaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pagament
+        fields = ['tarjet_num', 'exp_date', 'cvc']
+
+    def update(self, instance, validated_data):
+        # Actualizar los campos del objeto Pagament con los datos validados
+        instance.tarjet_num = validated_data.get('tarjet_num', instance.tarjet_num)
+        instance.exp_date = validated_data.get('exp_date', instance.exp_date)
+        instance.cvc = validated_data.get('cvc', instance.cvc)
+        instance.save()  # Guardar los cambios en la base de datos
+        return instance
+# class UpdatePaymentSerializer(serializers.Serializer):
+#     username = serializers.CharField()
+#     password = serializers.CharField()
+#     tarjet_num = serializers.CharField()
+#     exp_date = serializers.DateField()
+#     cvc = serializers.IntegerField()
+
+#     def validate(self, data):
+#         # Verificar que se proporcionaron todos los campos necesarios
+#         if not all(key in data for key in ['username', 'password', 'tarjet_num', 'exp_date', 'cvc']):
+#             raise serializers.ValidationError("Todos los campos son requeridos")
+
+#         # Verificar que el usuario existe y que la contraseña es correcta
+#         username = data['username']
+#         password = data['password']
+#         try:
+#             user = User.objects.get(name=username)
+#         except User.DoesNotExist:
+#             raise serializers.ValidationError("Usuario no encontrado")
+
+#         # Comparar la contraseña proporcionada con la contraseña del usuario
+#         if password != user.password:
+#             raise serializers.ValidationError("Contraseña incorrecta")
+
+#         # Retornar los datos validados
+#         return data
     

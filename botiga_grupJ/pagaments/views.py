@@ -4,7 +4,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Pagament, User
-from .serializers import AddPagamentSerializer, GetUserPagamentSerializer
+from .serializers import AddPagamentSerializer, GetUserPagamentSerializer, UpdatePaymentSerializer
+from django.contrib.auth.hashers import check_password
+import json
 
 # Mostrar los datos relacionados al pago: 
 # todos los productos de la comanda junto al user y sus datos de pago
@@ -40,6 +42,19 @@ def pagaments(request):
         #     serializer.save()
 
         # Añadir carrito a COMANDA y actualizar boolean
+        # formato: {
+        #                 "tarjet_num": "1111222233334444",
+        #                 "exp_date": "2027-12-31",
+        #                 "cvc": 789,
+        #                 "user": {
+        #                         name,
+        #                         password
+        #                 },
+        #                 "carrito_id": 
+        #           }
+        # DEBE: coincidir tarjeta_num y cvc con user id. 
+        # Buscar si coincide algun user con ese nombre y password y sacar el id.
+
         #return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -59,26 +74,47 @@ def update_delete_pagament(request, pk=None):
             return Response(serializer.data)
         except Pagament.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
-    if request.method == 'PUT':
-        try:
-            pagament = Pagament.objects.get(pk=pk)
-        except Pagament.DoesNotExist:
-            return Response({"message": "No se ha encontrado coincidencias en la data base para ese ID"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = AddPagamentSerializer(pagament, data=request.data)
+    # modificar datos de la targeta  
+    # requiere user name y password 
+    if request.method == 'PUT':
+
+         # Obtener los datos de la solicitud
+        data = request.data
+        user_name = data.get('username')
+        password = data.get('password')
+
+        # Obtener el usuario y su pagament asociado
+        try:
+            user = User.objects.get(pk=pk)
+            user_id = user.id
+
+            # buscar pagament
+            pagament = Pagament.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            return Response({"message": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Verificar que los datos de usuario coincidan
+        if user.name != user_name or password!=user.password:
+            return Response({"message": "Los datos de usuario no coinciden"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Serializar y actualizar el pagament
+        serializer = UpdatePaymentSerializer(pagament, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # return Response(Response({"message":"no tienes permisos"}), status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
-        try:
-            pagament = Pagament.objects.get(pk=pk)
-        except Pagament.DoesNotExist:
-            return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
+        # try:
+        #     pagament = Pagament.objects.get(pk=pk)
+        # except Pagament.DoesNotExist:
+        #     return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
        
-        pagament.delete()
-        return Response({"message": "El metodo de pago se ha eliminado correctamente"})
+        # pagament.delete()
+        # return Response({"message": "El metodo de pago se ha eliminado correctamente"})
+        return Response({"message":"no tienes permisos"})
     
     return Response({"nada a mostrar..."})

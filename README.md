@@ -47,4 +47,14 @@ INSERT INTO tuapp_pagament (tarjet_num, exp_date, cvc, user_id) VALUES
 ('1111222233334444', '2027-12-31', 789, 3);
 ```
 
+Update payment format:
+```
+{   "username": "Usuario 1",
+    "password": "contraseña1",
+    "tarjet_num": "1234567890123456",
+    "exp_date": "2025-12-31",
+    "cvc": 123,
+    "user": 1
+}
+```
 
