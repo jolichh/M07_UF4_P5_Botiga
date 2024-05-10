@@ -94,7 +94,7 @@ def update_delete_pagament(request, pk=None):
         except User.DoesNotExist:
             return Response({"message": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Verificar que los datos de usuario coincidan
+        # Verificar los datos de usuario que coincidan
         if user.name != user_name or password!=user.password:
             return Response({"message": "Los datos de usuario no coinciden"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -105,7 +105,6 @@ def update_delete_pagament(request, pk=None):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # return Response(Response({"message":"no tienes permisos"}), status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
         # try:
@@ -115,6 +114,6 @@ def update_delete_pagament(request, pk=None):
        
         # pagament.delete()
         # return Response({"message": "El metodo de pago se ha eliminado correctamente"})
-        return Response({"message":"no tienes permisos"})
+        return Response({"message":"no tienes permisos"}, status=status.HTTP_401_UNAUTHORIZED)
     
     return Response({"nada a mostrar..."})
