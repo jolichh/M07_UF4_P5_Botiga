@@ -15,3 +15,4 @@ class ProductoEnCarrito(models.Model):
 
     class Meta:
         db_table = 'carreto_productoencarrito'
+
