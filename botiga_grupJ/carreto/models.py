@@ -12,3 +12,6 @@ class ProductoEnCarrito(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producte, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        db_table = 'carreto_productoencarrito'
