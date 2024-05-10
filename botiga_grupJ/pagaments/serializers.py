@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group, User
-from botiga_grupJ.comandes.models import Comanda
+
+from comandes.models import Comanda
 from .models import Pagament, User
 from rest_framework import serializers
 
@@ -36,25 +37,25 @@ class GetPagamentSerializer(serializers.ModelSerializer):
         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
 
 
-# class UserPagamentSerializer(serializers.ModelSerializer):
-#     #guardarà los datos de manera filtrada
-#     pagaments = serializers.SerializerMethodField()
+class UserPagamentSerializer(serializers.ModelSerializer):
+    #guardarà los datos de manera filtrada
+    pagaments = serializers.SerializerMethodField()
 
-#     class Meta:
-#         model = User
-#         fields = ['id', 'name', 'email', 'password', 'pagaments']
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'email', 'password', 'pagaments']
 
-#     # def get_pagaments(self,obj):
-#     #     pagaments = Pagament.objects.filter(user=obj.id)
-#     #     return PagamentSerializer(pagaments, many=True).data
+    # def get_pagaments(self,obj):
+    #     pagaments = Pagament.objects.filter(user=obj.id)
+    #     return PagamentSerializer(pagaments, many=True).data
 
-# class GetPagamentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model=Pagament
-#         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
+class GetPagamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Pagament
+        fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
 
-# class AddPagamentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Pagament
-#         fields = ['tarjet_num', 'exp_date', 'cvc', 'user']
+class AddPagamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pagament
+        fields = ['tarjet_num', 'exp_date', 'cvc', 'user']
 
