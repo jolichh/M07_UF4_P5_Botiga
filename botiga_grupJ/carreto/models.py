@@ -7,6 +7,7 @@ class Carrito(models.Model):
     id = models.AutoField(primary_key=True)
     # Relación uno a muchos con la tabla Producte
     productos = models.ManyToManyField(Producte, through='ProductoEnCarrito')
+    compra_realizada = models.BooleanField(default=False)  
 
 class ProductoEnCarrito(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
