@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from carreto.models import Carrito
+from comandes.models import Comanda
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -43,27 +45,57 @@ def pagaments(request):
 
         # Añadir carrito a COMANDA y actualizar boolean
         # formato: {
-        #                 "tarjet_num": "1111222233334444",
-        #                 "exp_date": "2027-12-31",
-        #                 "cvc": 789,
-        #                 "user": {
-        #                         name,
-        #                         password
+        #                 "user_id": 1,
+        #                 "name": "Usuario 1",
+        #                 "password": "contraseña1",
+        #                 "payment": {
+        #                    "tarjet_num": "1111222233334444",
+        #                    "exp_date": "2027-12-31",
+        #                    "cvc": "789",
         #                 },
         #                 "carrito_id": 
         #           }
-        # DEBE: coincidir tarjeta_num y cvc con user id. 
-        # Buscar si coincide algun user con ese nombre y password y sacar el id.
+        # DEBE: coincidir password y contraseña con los del user logeado(id). 
+        # El user ID viene con el login, se pedirá introducir datos de login para verificar que se trata del mismo user
 
-        #return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
+        ## VERIFICAR USER
+        # Obtener los datos USER de la solicitud
+        data = request.data
+        user_id = data.get('user_id')   #no editable
+        user_name = data.get('name')
+        user_password = data.get('password')
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-       
+        # Obtener el usuario y sus datos
+        try:
+            user = User.objects.get(pk=user_id)
+            
+            # Verificar los datos de usuario que coincidan
+            if user.name != user_name or user_password!=user.password:
+                return Response({"message": "Los datos de usuario no coinciden"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        except User.DoesNotExist:
+            return Response({"message": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        # realizar el pago
+        try:    
+            # obtener su comanda
+            comanda = Comanda.objects.get(user_id=user_id)
+            com_id = comanda.id
+            # obtener el carrito no pagado (solo hay uno)
+            carrito = Carrito.objects.get(comanda_id=com_id, pagat=False)
+            # modificar el boolean a pagado
+
+            return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
+        
+        except:
+            return Response({"message":"no se ha encontrado su carrito..."}, status=status.HTTP_404_NOT_FOUND)
+
+
     return Response({"nada a mostrar..."})
 
 # trabaja sobre un dato especifico de pago: 
 # muestra los datos de pago de un usuario, junto a todos los datos relacionados a ese user
-@api_view(['GET','PUT','DELETE'])
+@api_view(['GET','PUT'])
 def update_delete_pagament(request, pk=None):
     if request.method == 'GET':
         try: 
@@ -79,7 +111,7 @@ def update_delete_pagament(request, pk=None):
     # requiere user name y password 
     if request.method == 'PUT':
 
-         # Obtener los datos de la solicitud
+        # Obtener los datos de la solicitud
         data = request.data
         user_name = data.get('username')
         password = data.get('password')
@@ -106,14 +138,15 @@ def update_delete_pagament(request, pk=None):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    elif request.method == 'DELETE':
-        # try:
-        #     pagament = Pagament.objects.get(pk=pk)
-        # except Pagament.DoesNotExist:
-        #     return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
+    ## EL DELETE ELIMINA LOS DATOS DE LA TARGETA
+    # elif request.method == 'DELETE':
+    #     # try:
+    #     #     pagament = Pagament.objects.get(pk=pk)
+    #     # except Pagament.DoesNotExist:
+    #     #     return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
        
-        # pagament.delete()
-        # return Response({"message": "El metodo de pago se ha eliminado correctamente"})
-        return Response({"message":"no tienes permisos"}, status=status.HTTP_401_UNAUTHORIZED)
+    #     # pagament.delete()
+    #     # return Response({"message": "El metodo de pago se ha eliminado correctamente"})
+    #     return Response({"message":"no tienes permisos"}, status=status.HTTP_401_UNAUTHORIZED)
     
     return Response({"nada a mostrar..."})
