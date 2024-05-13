@@ -35,6 +35,6 @@ urlpatterns = [
     path('cataleg/', cataleg_views.cataleg, name='cataleg'),
     path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte"),
     path('carreto/', carreto_views.Cart , name="carreto"),
-    path('carreto/<int:carrito_id>/', carreto_views.CartModify , name="carreto")
+    path('carreto/<int:carrito_id>/', carreto_views.CartModify , name="carreto"),
 
 ]
