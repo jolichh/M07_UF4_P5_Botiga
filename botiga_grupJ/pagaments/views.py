@@ -80,10 +80,15 @@ def pagaments(request):
         try:    
             # obtener su comanda
             comanda = Comanda.objects.get(user_id=user_id)
-            com_id = comanda.id
+
+            # obtener id del carrito
+            carreto = comanda.carreto
+
             # obtener el carrito no pagado (solo hay uno)
-            carrito = Carrito.objects.get(comanda_id=com_id, pagat=False)
-            # modificar el boolean a pagado
+            carrito = Carrito.objects.get(carrito_id=carreto, pagat=False)
+
+            # modificar el boolean del carrito a pagado (update carrito)
+
 
             return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
         
