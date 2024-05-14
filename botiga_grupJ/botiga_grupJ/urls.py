@@ -39,7 +39,10 @@ urlpatterns = [
     path('cataleg/<int:pk>/', cataleg_views.update_delete_cataleg, name="update_producte"),
     path('carreto/', carreto_views.Cart , name="carreto"),
     path('carreto/<int:carrito_id>/', carreto_views.CartModify , name="carreto"),
-    path('comanda/', comandes_views.comanda_list , name="comanda"),
+    path('comandas/', comandes_views.comanda_list , name="comanda"),
+    path('comandas/completadas/', comandes_views.comanda_list_completed),
+    path('comandas/no-completadas/', comandes_views.comanda_list_not_completed),
+
 
 
 ]
