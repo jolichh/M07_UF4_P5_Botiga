@@ -54,7 +54,9 @@ def pagaments(request):
         #                    "cvc": "789",
         #                 },
         #                 "carrito_id": 
-        #           }
+        #    
+        #        }
+
         # DEBE: coincidir password y contraseña con los del user logeado(id). 
         # El user ID viene con el login, se pedirá introducir datos de login para verificar que se trata del mismo user
 
@@ -64,40 +66,47 @@ def pagaments(request):
         user_id = data.get('user_id')   #no editable
         user_name = data.get('name')
         user_password = data.get('password')
+        carrito_pagar = data.get('carrito_id')
 
-        # Obtener el usuario y sus datos
+        
         try:
+            # Obtener el usuario y sus datos
             user = User.objects.get(pk=user_id)
             
             # Verificar los datos de usuario que coincidan
             if user.name != user_name or user_password!=user.password:
                 return Response({"message": "Los datos de usuario no coinciden"}, status=status.HTTP_401_UNAUTHORIZED)
+                
+            # realizar el pago       
+            try:     
+                # obtener su comanda
+                comanda = Comanda.objects.get(user_id=user_id)
+                print(comanda)
+                # obtener id del carrito
+                carreto_id = comanda.carreto
+
+                # obtener el carrito no pagado (solo hay uno)
+                carrito = Carrito.objects.get(id=carrito_pagar)
+
+                # modificar el boolean del carrito a pagado (update carrito)
+                carrito.compra_realizada = True
+                carrito.save()
+
+                # crear nuevo carrito para user (indicar id de comanda)
+                carrito_vacio = Carrito.objects.create(compra_realizada=False)
+                carrito_vacio.save()
+
+                # # asignarle la comanda
+                # comanda.carreto = carrito_vacio
+                # comanda.save()
+
+                return Response({"message": "Se ha realizado el pago correctamente"})
+            except:
+                return Response({"message":"no se ha encontrado su carrito..."}, status=status.HTTP_404_NOT_FOUND)
         
         except User.DoesNotExist:
             return Response({"message": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-
-        # realizar el pago
-        try:    
-            # obtener su comanda
-            comanda = Comanda.objects.get(user_id=user_id)
-
-            # obtener id del carrito
-            carreto = comanda.carreto
-
-            # obtener el carrito no pagado (solo hay uno)
-            carrito = Carrito.objects.get(carrito_id=carreto, pagat=False)
-
-            # modificar el boolean del carrito a pagado (update carrito)
-            # cambiar bool (no se elimina carrito)
-            # crear nuevo carrito
-
-
-            return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
-        
-        except:
-            return Response({"message":"no se ha encontrado su carrito..."}, status=status.HTTP_404_NOT_FOUND)
-
-
+  
     return Response({"nada a mostrar..."})
 
 # trabaja sobre un dato especifico de pago: 
@@ -120,7 +129,7 @@ def update_delete_pagament(request, pk=None):
 
         # Obtener los datos de la solicitud
         data = request.data
-        user_name = data.get('username')
+        user_name = data.get('name')
         password = data.get('password')
 
         # Obtener el usuario y su pagament asociado
