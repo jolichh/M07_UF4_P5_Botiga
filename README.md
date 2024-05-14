@@ -1,6 +1,41 @@
 # M07_UF4_P5_Botiga
+Crear un projecte de Django REST FRAMEWORK de nom botiga_grupX (on X es el número del grup). El producte ha de tindre, mńim, 6 camps sense comptar id.
+    
+Aquest projecte haurà de tindre les següents 4 aplicacions:
 
-## Datos de prueba DDBB
+**(INTEGRAN A)**
+
+Gestió del catàleg del producte (mínim 10 registres) (branca catalog).
+Afegir nous productes (commit amb missatge). 
+Actualitzar productes (commit amb missatge).
+Eliminar productes (commit amb missatge).
+Veure informació del producte (commit amb missatge).
+
+**(INTEGRAN B)**
+
+Gestió del carretó de la compra (mínim, un carretó amb 4 productes) (branca cart).
+Afegir productes al carretó (commit amb missatge).
+Eliminar productes del carretó (commit amb missatge).
+Eliminar tot el carretó (commit amb missatge).
+Modificar quantitats (commit amb missatge).
+Mètode de compra de carretó (commit amb missatge).
+
+**(INTEGRAN B)**
+
+Gestió de comandes (repartir 10 registres entre cada estat) (branca orders).
+Mostrar historial de compres fetes (commit amb missatge).
+Mostrar informació de carretons sense finalitzar. No cal treballar amb tokens. Si es realitza la compra (mirar pagaments) passa a històrics, si no és el cas, es queda en historial de carretons sense finalitzar i si se li dona a eliminar carretó s’elimina i no queda registre (commit amb missatge).
+
+**(INTEGRAN A)**
+
+Gestió pagaments (simulat) (branca payments).
+Ha de tindre les opcions de; posar número de tarjeta, data caducitat i CVC.
+Cal consultar si les dades son correctes, i si son correctes es procedeix al pagament. 
+Quan es faci el pagament, es demana una autenticació (usuari i password) altra vegada i  es fa la verificació de dades (commit amb missatge).
+Una vegada feta la compra, afegir-la a històrics (gestió comandes) .Enviarà un missatge de compra feta (commit amb missatge).
+
+
+## Ejemplos de Datos de prueba DDBB
 **Tabla Cataleg**
 Insertar datos de categorías
 ```
@@ -8,9 +43,11 @@ INSERT INTO cataleg_categoria (name) VALUES
 ('Electrónica'),
 ('Ropa'),
 ('Hogar');
+```
 
 Insertar datos de productos asociados a categorías
 
+```
 INSERT INTO cataleg_producte (name, description, price, valoration, quantity, categoria_id) VALUES
 ('Laptop', 'Laptop de última generación', 1200.00, 4, 10, 1),
 ('Camisa', 'Camisa de algodón de alta calidad', 30.00, 5, 20, 2),
@@ -18,36 +55,37 @@ INSERT INTO cataleg_producte (name, description, price, valoration, quantity, ca
 ('Teléfono móvil', 'Teléfono inteligente con cámara de alta resolución', 800.00, 4, 12, 1),
 ('Pantalón', 'Pantalón vaquero de estilo casual', 40.00, 5, 25, 2),
 ('Cafetera', 'Cafetera de cápsulas con sistema de autolimpieza', 90.00, 4, 8, 3);
+```
 
-Ejemplo inserción de datos en Categoria (nuevo producto)
-
+**Ejemplo inserción de datos en Categoria (nuevo producto)**
+```
 { "name": "Producto Nuevo", "description": "Descripcion de producto nuevo...", "price": "200", "valoration": 4, "quantity": 20, "categoria": 1 }
+```
 
-    Para editar sigue el mismo formato json Tabla Pagament Insertar datos prueba a User
+* Para editar sigue el mismo formato json 
 
+**Tabla Pagament Insertar datos prueba a User**
+```
 INSERT INTO pagaments_user (name, email, password) VALUES
 ('Usuario 1', 'usuario1@example.com', 'contraseña1'),
 ('Usuario 2', 'usuario2@example.com', 'contraseña2'),
 ('Usuario 3', 'usuario3@example.com', 'contraseña3');
-
+```
 Insertar datos de pagamentos
-
-INSERT INTO tuapp_pagament (tarjet_num, exp_date, cvc, user_id) VALUES
+```
+INSERT INTO pagaments_pagament (tarjet_num, exp_date, cvc, user_id) VALUES
 ('1234567890123456', '2025-12-31', 123, 1),
 ('9876543210987654', '2026-12-31', 456, 2),
 ('1111222233334444', '2027-12-31', 789, 3);
+```
 
 Insertar datos de Carreto_carrito
-
+```
 INSERT INTO public.carreto_carrito(compra_realizada) VALUES(false)
-
-
-
-
-COMANDAS JSON:
+```
 
 Update payment format:
-
+```
 {   
     "username": "Usuario 1",
     "password": "contraseña1",
@@ -56,8 +94,8 @@ Update payment format:
     "cvc": "123" //nuevos datos
 }
 ```
-
-CAPTURAS DE PANTALLA CARRETO:
+## CAPTURAS DE PANTALLA
+### CAPTURAS DE PANTALLA CARRETO:
 
 En esta captura se ve el GET de carreto donde se muestra su id mas los productos que hay dentro del carrito con su cantidad
 
