@@ -81,9 +81,7 @@ def pagaments(request):
             try:     
                 # obtener su comanda
                 comanda = Comanda.objects.get(user_id=user_id)
-                print(comanda)
-                # obtener id del carrito
-                carreto_id = comanda.carreto
+                # el id de carrito se lo pasamos en JSON
 
                 # obtener el carrito no pagado (solo hay uno)
                 carrito = Carrito.objects.get(id=carrito_pagar)
@@ -96,9 +94,9 @@ def pagaments(request):
                 carrito_vacio = Carrito.objects.create(compra_realizada=False)
                 carrito_vacio.save()
 
-                # # asignarle la comanda
-                # comanda.carreto = carrito_vacio
-                # comanda.save()
+                # asignarle la comanda
+                comanda.carreto = carrito_vacio
+                comanda.save()
 
                 return Response({"message": "Se ha realizado el pago correctamente"})
             except:
