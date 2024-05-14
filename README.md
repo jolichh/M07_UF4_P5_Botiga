@@ -148,3 +148,22 @@ Moviendome al path de completadas muestro todas las comandas que ya estan comple
 ![GET Comandas completadas](img/COMANDAS/3.GET_COMANDAS_COMPLETADAS.png)
 
 
+### CATALEG
+Obtenir tots els productes
+![get_cat](img/Catalog/mostrar-todo.png)
+Afegir un producte
+![add_cat](img/Catalog/create.png)
+Mostrar 1 producte
+![get_one_cat](img/Catalog/one-data.png)
+Actualitzar un producte
+![update_cat](img/Catalog/update.png)
+Eliminar producte
+![delete_cat](img/Catalog/delete.png)
+
+### PAGAMENT
+Mostrar todos los usuarios con sus datos y comandas
+![get_pay](img/Payment/mostrar-todo.png)
+Mostrar datos especificos de un usuario
+![show_pay](img/Payment/datos-user.png)
+Realizar pago y limpieza de carrito
+![op_pay](img/Payment/realizar-pago.png)
