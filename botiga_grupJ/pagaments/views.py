@@ -124,15 +124,4 @@ def update_delete_pagament(request, pk=None):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    ## EL DELETE ELIMINA LOS DATOS DE LA TARGETA
-    # elif request.method == 'DELETE':
-    #     # try:
-    #     #     pagament = Pagament.objects.get(pk=pk)
-    #     # except Pagament.DoesNotExist:
-    #     #     return Response({"message": "El pago no existe"}, status=status.HTTP_404_NOT_FOUND)
-       
-    #     # pagament.delete()
-    #     # return Response({"message": "El metodo de pago se ha eliminado correctamente"})
-    #     return Response({"message":"no tienes permisos"}, status=status.HTTP_401_UNAUTHORIZED)
-    
     return Response({"nada a mostrar..."})
