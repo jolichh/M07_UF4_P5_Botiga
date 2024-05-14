@@ -35,7 +35,6 @@ class CarritoSerializer(serializers.ModelSerializer):
 
 
 
-
 #POST PRODUCTOS
 
 class ProducteSerializer(serializers.ModelSerializer):
