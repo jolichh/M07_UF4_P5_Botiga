@@ -42,7 +42,7 @@ def pagaments(request):
         #     else:
         #         return Response({"message": "Ya existe un pago para este usuario"}, status=status.HTTP_400_BAD_REQUEST)
         #     serializer.save()
-
+##
         # Añadir carrito a COMANDA y actualizar boolean
         # formato: {
         #                 "user_id": 1,

@@ -17,17 +17,17 @@ from django.contrib.auth.hashers import check_password
 
 # comanda con datos del carrito
 # cada comanda puede tener varios carritos con propiedad de pagado o no
-class ComandaSerializer(serializers.ModelSerializer):
-    carrito = serializers.SerializerMethodField()
+# class ComandaSerializer(serializers.ModelSerializer):
+#     carrito = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Comanda
-        fields = ['id', 'carreto', 'data', 'user']  # Incluir los campos necesarios de Comanda
+#     class Meta:
+#         model = Comanda
+#         fields = ['id', 'carreto', 'data', 'user']  # Incluir los campos necesarios de Comanda
 
-    def get_carrito(self, obj):
-        comandes = Carrito.objects.filter(user=obj.id)
-        #importamos serializador de la app carreto
-        return CarritoSerializer(comandes, many=True).data
+#     def get_carrito(self, obj):
+#         comandes = Carrito.objects.filter(user=obj.id)
+#         #importamos serializador de la app carreto
+#         return CarritoSerializer(comandes, many=True).data
 
 # serializador de campos de la tabla pagament
 class PagamentSerializer(serializers.ModelSerializer):
@@ -69,20 +69,18 @@ class AddPagamentSerializer(serializers.ModelSerializer):
 #         return ComandaSerializer(comandes, many=True).data
     
 # serializador del modelo comanda
+# class ComandaSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Comanda
+#         fields = ['id', 'carreto', 'data', 'user']
 class ComandaSerializer(serializers.ModelSerializer):
+    #Aqui indico que el campo carreto de Comanda tiene qie serializar-lo
+    #Usando el serializador de Carrito para mostrar todo el contenido del carrito
+    carreto = CarritoSerializer(read_only=True)
+
     class Meta:
         model = Comanda
-        fields = ['id', 'carreto', 'data', 'user']
-
-# para mostrar TODOS los datos al pagar: comanda, user, datos de pago
-# los datos obtenidos formato CASCADE
-# class GetPagamentSerializer(serializers.ModelSerializer):
-#     user = UserPagamentSerializer()
-
-#     class Meta:
-#         model=Pagament
-#         fields = ['id','tarjet_num', 'exp_date', 'cvc', 'user']
-
+        fields = ['id', 'carreto', 'compra_realizada', 'data', 'user']
 
 ## MOSTRAR USUARIOS CON TODA SU INFO RELACIONADA: 
 # formas de pago(pagament), comanda, carreto
@@ -103,6 +101,7 @@ class GetUserPagamentSerializer(serializers.ModelSerializer):
     def get_comanda(self, obj):
         comandes = Comanda.objects.filter(user=obj.id)
         return ComandaSerializer(comandes, many=True).data
+    
     
 # UPDATE datos de pago
 class UpdatePaymentSerializer(serializers.ModelSerializer):
