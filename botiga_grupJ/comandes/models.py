@@ -10,7 +10,7 @@ class Comanda(models.Model):
     compra_realizada = models.BooleanField(default=False)
     data = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    
+     
 @receiver(post_save, sender=Carrito)
 def update_or_create_comanda(sender, instance, created, **kwargs):
     if created:
