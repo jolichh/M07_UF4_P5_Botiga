@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Pagament, User
-from .serializers import AddPagamentSerializer, GetUserPagamentSerializer, UpdatePaymentSerializer
+from .serializers import GetUserPagamentSerializer, UpdatePaymentSerializer
 from django.contrib.auth.hashers import check_password
 import json
 
