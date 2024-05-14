@@ -4,9 +4,9 @@ services:
     image: postgres:13
     container_name: db
     environment:  
-      - POSTGRES_DB=ITIC_DB
-      - POSTGRES_PASSWORD=eric
-      - POSTGRES_USER=eric
+      - POSTGRES_DB=postgres7
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgresuser
     ports:
       - "5432:5432"
     volumes:
@@ -17,8 +17,8 @@ services:
     ports:
       - "81:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: eric@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: eric123
+      PGADMIN_DEFAULT_EMAIL: joana@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: joana123
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 volumes:
