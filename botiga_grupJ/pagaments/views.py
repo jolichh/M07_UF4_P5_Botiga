@@ -26,37 +26,9 @@ def pagaments(request):
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
-    # realizar el pago: 
-    # marcar en comanda pagado=TRUE
-    # vaciar carrito
+    # realizar el pago
     elif request.method == 'POST':
-        # # AÑADIR DATOS DE PAGO
-        # serializer = AddPagamentSerializer(data=request.data)
-        # # Asegurar formato de datos cumple la serialización
-        # if serializer.is_valid():
-        #     # Verificar si ya existe un pago para este usuario
-        #     user_id = serializer.validated_data['user']
-        #     if not Pagament.objects.filter(user_id=user_id).exists():
-        #         serializer.save()
-        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        #     else:
-        #         return Response({"message": "Ya existe un pago para este usuario"}, status=status.HTTP_400_BAD_REQUEST)
-        #     serializer.save()
-##
-        # Añadir carrito a COMANDA y actualizar boolean
-        # formato: {
-        #                 "user_id": 1,
-        #                 "name": "Usuario 1",
-        #                 "password": "contraseña1",
-        #                 "payment": {
-        #                    "tarjet_num": "1111222233334444",
-        #                    "exp_date": "2027-12-31",
-        #                    "cvc": "789",
-        #                 },
-        #                 "carrito_id": 
-        #    
-        #        }
-
+        
         # DEBE: coincidir password y contraseña con los del user logeado(id). 
         # El user ID viene con el login, se pedirá introducir datos de login para verificar que se trata del mismo user
 
