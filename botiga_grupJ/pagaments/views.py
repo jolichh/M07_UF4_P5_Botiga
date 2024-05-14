@@ -88,6 +88,8 @@ def pagaments(request):
             carrito = Carrito.objects.get(carrito_id=carreto, pagat=False)
 
             # modificar el boolean del carrito a pagado (update carrito)
+            # cambiar bool (no se elimina carrito)
+            # crear nuevo carrito
 
 
             return Response({"message": "ACTUALIZAR BOOLEAN A TRUE PAGADO CARRITO DE COMANDA"})
