@@ -10,6 +10,6 @@ class ComandaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comanda
-        fields = ['id', 'carreto', 'compra_realizada', 'data', 'user']
+        fields = ['id', 'carreto', 'data', 'user']
 
 
