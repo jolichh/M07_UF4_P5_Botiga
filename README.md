@@ -1,4 +1,10 @@
 # M07_UF4_P5_Botiga
+Enlace Presentación Power Point:
+
+https://docs.google.com/presentation/d/1yvs1FZdWegPrObPRbKpapZ9bLACdirs3tq-xid_m2WM/edit?usp=sharing
+
+
+
 
 Datos de prueba DDBB
 
