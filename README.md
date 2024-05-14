@@ -167,3 +167,7 @@ Mostrar datos especificos de un usuario
 ![show_pay](img/Payment/datos-user.png)
 Realizar pago y limpieza de carrito
 ![op_pay](img/Payment/realizar-pago.png)
+
+## KANBAN
+Evidencia de kanban durante el proceso
+![kanban](img/Kanban_inProgress.png)
