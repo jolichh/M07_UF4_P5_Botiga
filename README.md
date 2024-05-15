@@ -94,6 +94,11 @@ Update payment format:
     "cvc": "123" //nuevos datos
 }
 ```
+## VIDEO
+[Carpeta Drive de VIDEOs](https://drive.google.com/drive/folders/1DEyfNLLJuY4ljnYUNJ9dc3j8RsvN88JT?usp=sharing)
+
+Orden de los 4 videos enumerados en la carpeta en este orden: 1-Cataleg, 2-Carreto, 3-Comandas, 4-Pagament
+
 ## CAPTURAS DE PANTALLA
 ### CAPTURAS DE PANTALLA CARRETO:
 
@@ -133,7 +138,6 @@ Esta es la confirmación conforme se ha borrado el carrito:
 //////////////////////////////////////////
 
 CAPTURAS DE PANTALLA COMANDA:
-
 
 Se muestran todas las comandas que hay, tanto las finalizadas como las que todavia no lo estan:
 
